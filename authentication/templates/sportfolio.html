@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+
+{% block title %}User Sign{% endblock title %}
+
+{% block main %}
+{% load static %}
+    <link href="{% static 'assets/css/sportfolio.css' %}" rel="stylesheet">
+
+    
+
+    <div class="app" style="padding-top: 5%;">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Provider Panel</h1>
+            </div>
+            <nav>
+                <div id="profile-data" 
+     data-username={{request.user.username}}
+     data-email="{{ request.user.email }}"
+     data-bio="{{ user_profile.bio }}">
+</div>`
+                <ul>
+                    <li><a href="#" data-page="dashboard">Dashboard</a></li>
+                    <li><a href="#" data-page="profile">Profile</a></li>
+                    <li><a href="#" data-page="services">Services</a></li>
+                    <!-- <li><a href="#" data-page="bookings">Bookings</a></li> -->
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <header>
+                <h2>Welcome, {{request.user.get_full_name}}</h2>
+                <button id="logout" action>Logout</button>
+            </header>
+            <div id="content"></div>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'assets/js/sportfolio.js' %}"></script>
+    
+{% endblock main %}
+

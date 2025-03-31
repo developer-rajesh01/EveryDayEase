@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block title %}User Signup{% endblock title %}
+{% block main %}
+
+  <style>
+    span{
+      color: red;
+    }
+    li{
+      color: orange;
+    }
+  </style>
+
+  <!-- Registration 12 - Bootstrap Brain Component -->
+  <main class="container mt-5">
+
+    <section class="py-3 py-md-5 py-xl-8 card-body position-relative">
+      <div class="container shadow-lg card py-5 bg-transparent left-center">
+        
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-5">
+              <h2 class="display-5 fw-bold text-center">Sign up</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          
+          <div class="col-12 col-lg-5 d-flex align-items-center">
+            <div class="d-flex gap-3 flex-column w-100 ">
+              <a href="/accounts/google/login" class="btn bsb-btn-2xl btn-white shadow-lg border-primary border-2 rounded d-flex align-items-center" onmouseover="">
+                <img src="https://storage.googleapis.com/libraries-lib-production/images/GoogleLogo-canvas-404-300px.original.png" width="45px" alt="">
+                <span class="ms-2 text-dark flex-grow-1 fw-semibold">Continue with Google</span>
+              </a>
+            </div>
+            
+          </div>
+          <div class="col-12 col-lg-8 d-flex align-items-center justify-content-center gap-3 flex-lg-column">
+            <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
+            <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
+            <div>or</div>
+            <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
+            <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
+          </div>
+        
+          {% if messages %}
+              <div class="messages">
+                  {% for message in messages %}
+                      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                          {{ message }}
+                      </div>
+                  {% endfor %}
+              </div>
+          {% endif %}
+
+          <div class="col-12 p-2 py-4 col-lg-10 col-xl-8">
+            <div class="row gy-5 justify-content-center">
+              <div class="col-12 col-lg-5">
+                <form method="post" action="/accounts/signup/">
+                  {% csrf_token %}
+                  <div class="row gy-3 overflow-hidden">
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="text" name="username" value="" placeholder="Username" class="form-control border-0 border-bottom rounded-0" autocomplete="username" minlength="1" maxlength="150" required="" id="id_username">
+                        <label for="firstName" class="form-label">Username <span>*</span></label>
+                        {% if form.username.errors %}
+                          <ul class="text-danger">
+                            {% for error in form.email.errors %}
+                              <li>{{ error }}</li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </div>
+                    </div>
+                    
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="email" class="form-control border-0 border-bottom rounded-0" name="email" id="email" placeholder="optional">
+                        <label for="email" class="form-label">Email (optional)</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="password" class="form-control border-0 border-bottom rounded-0" name="password1" placeholder="Password" autocomplete="new-password" required="" aria-invalid="true" aria-describedby="id_password1_helptext" id="id_password1">
+                        <label for="password" class="form-label">Password <span>*</span></label>
+                        {% if form.password1.errors %}
+                          <ul class="text-danger">
+                            {% for error in form.password1.errors %}
+                              <li>{{ error }}</li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <input type="password" class="form-control border-0 border-bottom rounded-0" name="password2" placeholder="Password (again)" autocomplete="new-password" required="" id="id_password2">
+                        <label for="password" class="form-label">Confirm Password <span>*</span></label>
+                        {% if form.password2.errors %}
+                          <ul class="text-danger">
+                            {% for error in form.password2.errors %}
+                              <li>{{ error }}</li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </div>
+                    </div>
+                    
+
+                    {% if form.non_field_errors %}
+                      <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    <div class="col-12">
+                      <div class="form-floating mb-3">
+                        <p class="text-dark">who you are ?</p>
+                        <div class="row">
+                          <div class="col">
+
+                            <input type="radio" name="usertype" id="provider" required value="provider">
+                            <label for="provider" class="form-label">Service Provider </label>
+                          </div>
+                          <div class="col">
+
+                            
+                            <input type="radio" name="usertype" id="serviceuser" required value="user">
+                            <label for="serviceuser" class="form-label">Service User</label>
+                          </div>
+                        </div>
+
+                        {% if form.password1.errors %}
+                          <ul class="text-danger">
+                            {% for error in form.password1.errors %}
+                              <li>{{ error }}</li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </div>
+                    </div>
+
+
+
+                    <div class="col-12">
+                      <div class="d-grid">
+                        <button class="btn btn-lg btn-primary rounded fs-6" type="submit">Sign up</button>
+                      </div>
+                      <p class="m-2">Already have an account? <a href="/accounts/login/">Sign in</a></p>
+                      <p class="m-2">Business account SignIn? <a href="/accounts/business_signup/">Sign in</a></p>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+  </main>
+
+{% endblock main %}

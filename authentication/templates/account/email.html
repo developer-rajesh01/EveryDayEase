@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Email</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+      input::placeholder{
+        color: rgb(160, 157, 157) !important;
+      }
+      
+    </style>
+  </head>
+
+  <body style="background: linear-gradient(to right, #5557ce, #6515c5);">
+    <section class="pb-5 position-relative my-5">
+      <div class="container p-3 shadow-lg bg-white border-primary border-2 rounded" id="parent" style="background: linear-gradient(to right,rgb(65, 67, 192),rgb(91, 12, 187));">
+        
+        {% if messages %}
+          <div class="messages w-100" id="message_id">
+            {% for message in messages %}
+              <div class="alert {% if message.tags %}
+                  {% if message.tags == 'error' %}
+                    alert-danger
+                  {% else %}
+                    alert-{{ message.tags }}
+                  {% endif %}
+                {% endif %} alert-dismissible fade show"
+                role="alert">
+                {{ message }}
+                <button type="button" onclick="document.getElementById('parent').removeChild(document.getElementById('message_id'))" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <h2 class="text-center text-white">Manage Your Email</h2>
+        <hr/>
+
+        {% if user.is_authenticated %}
+          <div class="mb-4">
+            <h4 class="text-white">Hello, {{ user.get_full_name |title}}!</h4>
+
+            <pc class="text-white">Your current email address</p>
+
+            <form method="post" action="/accounts/email/" class="my-3">
+              
+              {% csrf_token %}
+
+              {% for email in user.emailaddress_set.all %}
+              <li style="list-style: none;">
+
+                <input {% if email.primary %} checked {% endif %} name="email" id="email_radio_{{forloop.counter0}}" value="{{email.email}}" type="radio" />
+                <label for="email_radio_{{forloop.counter0}}" class="me-3">{{ email.email }}</label> 
+
+                {% if email.verified %} ✅ <span class="text-warning">Verified</span>{% else %} ❌ <span class="text-mite">Unverified</span> {% endif %}
+                {% if email.primary %} (<span class="text-info">Primary</span>) {% endif %}
+                  
+                  <!-- <div class="email-actions">
+                      {% if not email.primary %}
+                          <a href="{% url 'account_email' %}?action=makeprimary&email={{ email.email }}">Make Primary</a>
+                      {% endif %}
+                      <a href="{% url 'account_email' %}?action=remove&email={{ email.email }}">Remove</a>
+                      {% if not email.verified %}
+                          <a href="{% url 'account_email' %}?action=resend&email={{ email.email }}">Resend Verification</a>
+                      {% endif %}
+                  </div> -->
+              </li>
+        {% empty %}
+            <p>No emails associated with your account.</p>
+      {% endfor %}
+
+              <div class="d-flex flex-wrap my-4">
+                <button name="action_send" type="submit" class="m-1 btn-sm btn btn-primary mb-2 text-white">Re-send Verification</button>
+                <button name="action_primary" type="submit" class="m-1 btn-sm btn btn-secondary mb-2 text-white">Make Primary</button>
+                <button name="action_remove" type="submit" class=" m-1 btn-sm btn btn-danger mb-2 text-white">Remove</button>
+
+              </div>
+              
+              {% if form.action_send.errors %}
+                  <ul class="text-danger">
+                    {% for error in form.action_send.errors %}
+                      <li>{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+            </form>
+
+            <!-- Buttons for actions -->
+
+            {% comment %} <a href="{% url 'account_email_verification_sent' %}" class="btn btn-primary mb-2">Resend Verification Email</a>
+            <a href="/" class="btn btn-secondary mb-2">Change Email</a>
+            <a href="" class="btn btn-danger mb-2">Remove Email</a> {% endcomment %}
+          </div>
+
+          <div class="container">
+            <h2 class="w-100 text-center mt-3 text-white">Add Email Address</h2>
+            <hr />
+
+            <form method="post" action="/accounts/email/" class="col-md-6">
+              {% csrf_token %}
+              <p>
+                <label for="id_email" class="text-white">Email:</label>
+                <input type="email" name="email" style="color: rgb(207, 207, 207) ;" class="form-control bg-transparent" placeholder="Email address" maxlength="320" required="" id="id_email" />
+                {% if form.email.errors %}
+                  <ul class="text-danger">
+                    {% for error in form.email.errors %}
+                      <li>{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </p>
+
+              <div class="d-flex justify-content-evenly w-100">
+                <button name="action_add" class="btn btn-primary px-3 btn-sm py-0" style="width: 150px;" type="submit">Add Email</button>
+              <button name="action_add" class="btn btn-outline-secondary mx-3 px-3" type="reset">Clear</button>
+              </div>
+            </form>
+          </div>
+        {% else %}
+          <p class="text-danger">
+            You need to <a href="{% url 'account_login' %}">log in</a> to manage your email settings.
+          </p>
+        {% endif %}
+
+       
+        </div>
+      </div>
+      <div class="pt-5 d-flex flex-wrap w-00" style="position:absolute;bottom:-5%;width:100%;left: 0%;">
+        <a class="btn btn-sm m-1 btn-outline-dark btn-sm mx-auto mx-" href="/accounts/password/change/">Change Password</a>
+        <a class="btn btn-sm m-1 btn-outline-dark btn-sm mx-auto mx-" href="/accounts/3rdparty/">Account Connections</a>
+        <a class="btn btn-sm m-1 btn-danger btn-sm mx-auto mx-" href="/accounts/logout/">Sign Out <i class="bi bi-box-arrow-right mx-2"></i></a>
+      </div>
+    </section>
+
+    <script>
+      ;(function () {
+        var message = 'Do you really want to remove the selected email address?'
+        var actions = document.getElementsByName('action_remove')
+        if (actions.length) {
+          actions[0].addEventListener('click', function (e) {
+            if (!confirm(message)) {
+              e.preventDefault()
+            }
+          })
+        }
+      })()
+    </script>
+    
+    <style>
+      @font-face {
+        font-family: FigtreeVF;
+        src: url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format('woff2 supports variations'), url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format('woff2-variations');
+        font-weight: 100 1000;
+        font-display: swap;
+      }
+    </style>
+    
+  </body>
+</html>

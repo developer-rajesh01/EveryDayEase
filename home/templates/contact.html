@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}EveryDayEase | Contact{% endblock title %}
+
+{% block main %}
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'assets/css/contact.css' %} ">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+    <div class="contact my-5">
+        <h1>Get in Touch</h1>
+        <p>Contact-Us</p>
+        <p>Feel free to reach out to us!</p>
+    </div>
+
+    <div class="contact-container">
+        <div class="contact-info">
+            <div class="contact-icon">
+                <i class="bi bi-geo-alt"></i>
+                <div>
+                    <h4>Our Address</h4>
+                    <p>1230 Maecenas Street Donec Road<br>New York, EEUU</p>
+                </div>
+            </div>
+
+            <div class="contact-icon">
+                <i class="bi bi-telephone"></i>
+                <div>
+                    <h4>Contact</h4>
+                    <p>Mobile: +1 (123) 456-7890<br>Mail: tailnext@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="contact-icon">
+                <i class="bi bi-clock"></i>
+                <div>
+                    <h4>Working Hours</h4>
+                    <p>Monday - Friday: 08:00 - 17:00<br>Saturday & Sunday: 08:00 - 12:00</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2>Ready to Get Started?</h2>
+            <form action="#" method="post">
+                <input type="text" name="name" placeholder="Your name" required>
+                <input type="email" name="email" placeholder="Your email address" required>
+                <input type="text" name="subject" placeholder="Reason for contact (Subject)" required>
+                <textarea name="message" placeholder="Write your message..." rows="5" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock main %}

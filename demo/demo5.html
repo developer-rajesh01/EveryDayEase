@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      width: 50%;
+      margin: 50px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      background-color: #4CAF50;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button[disabled] {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar div {
+      width: 100%;
+      height: 6px;
+      background-color: #ddd;
+      border-radius: 3px;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    .progress-bar div.active {
+      background-color: #4CAF50;
+    }
+
+    .progress-bar div:last-child {
+      margin-right: 0;
+    }
+
+    /* Updated Step Indicator Styles */
+    .step-indicator-wrapper {
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 350px;
+      height: 6px;
+      background-color: #ddd;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+
+    .step-indicator div {
+      height: 6px;
+      background-color: #ccc;
+      border-radius: 3px;
+      flex-grow: 1;
+    }
+
+    .step-indicator div.active {
+      background-color: #4CAF50;
+    }
+
+    /* Active Steps */
+    .step-indicator div:nth-child(1) {
+      flex-grow: 1;
+    }
+
+    .step-indicator div:nth-child(2) {
+      flex-grow: 1;
+    }
+
+    .step-indicator div:nth-child(3) {
+      flex-grow: 1;
+    }
+
+    .step-indicator div:nth-child(4) {
+      flex-grow: 1;
+    }
+
+    .step-indicator div:nth-child(5) {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="active"></div>
+      <div class="active"></div>
+      <div class="active"></div>
+      <div class="active"></div>
+      <div class="active"></div>
+    </div>
+
+    <h2>Step 5: Payment Information</h2>
+
+    <form id="paymentForm">
+      <!-- Payment Mode Selection -->
+      <label for="paymentMode">Preferred Payment Mode</label>
+      <select id="paymentMode" required onchange="validatePayment()">
+        <option value="">Select Payment Mode</option>
+        <option value="bank">Bank</option>
+        <option value="upi">UPI ID</option>
+      </select>
+
+      <!-- Bank Details (If Bank is selected) -->
+      <div id="bankDetails" style="display:none;">
+        <label for="bankAccountHolder">Bank Account Holder Name</label>
+        <input type="text" id="bankAccountHolder" placeholder="Enter bank account holder's name" />
+
+        <label for="bankAccount">Bank Account Number</label>
+        <input type="text" id="bankAccount" placeholder="Enter bank account number" />
+
+        <label for="bankIFSC">Bank IFSC Code</label>
+        <input type="text" id="bankIFSC" placeholder="Enter bank IFSC code" />
+      </div>
+
+      <!-- UPI ID Details (If UPI is selected) -->
+      <div id="upiDetails" style="display:none;">
+        <label for="upiID">UPI ID</label>
+        <input type="text" id="upiID" placeholder="Enter your UPI ID" />
+      </div>
+
+      <!-- Terms and Conditions Checkbox -->
+      <div style="display: flex; align-items: center; margin-top: 20px;">
+        <input type="checkbox" id="agreeCheckbox" onchange="toggleSubmitButton()" style="margin-right: 10px; margin-top: 13px;">
+        <label for="agreeCheckbox">
+          I agree with the <a href="#" target="_blank">Terms and Conditions</a>
+        </label>
+      </div>
+    
+
+      <!-- Submit Button -->
+      <button type="button" id="submitButton" onclick="submitForm()" disabled>Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // Handle Payment Mode Change
+    function validatePayment() {
+      const paymentMode = document.getElementById("paymentMode").value;
+      const submitButton = document.getElementById("submitButton");
+
+      // Show relevant fields based on payment mode
+      if (paymentMode === "bank") {
+        document.getElementById("bankDetails").style.display = "block";
+        document.getElementById("upiDetails").style.display = "none";
+      } else if (paymentMode === "upi") {
+        document.getElementById("bankDetails").style.display = "none";
+        document.getElementById("upiDetails").style.display = "block";
+      } else {
+        document.getElementById("bankDetails").style.display = "none";
+        document.getElementById("upiDetails").style.display = "none";
+      }
+    }
+
+    // Enable/Disable Submit Button based on checkbox
+    function toggleSubmitButton() {
+      const submitButton = document.getElementById("submitButton");
+      const agreeCheckbox = document.getElementById("agreeCheckbox");
+
+      submitButton.disabled = !agreeCheckbox.checked;
+    }
+
+    // Handle Form Submission
+    function submitForm() {
+      const paymentData = {
+        paymentMode: document.getElementById("paymentMode").value,
+        bankAccountHolder: document.getElementById("bankAccountHolder").value,
+        bankAccount: document.getElementById("bankAccount").value,
+        bankIFSC: document.getElementById("bankIFSC").value,
+        upiID: document.getElementById("upiID").value
+      };
+
+      // Save to localStorage (or handle submission)
+      localStorage.setItem("paymentData", JSON.stringify(paymentData));
+   //   alert("Form Submitted Successfully!"); // Replace with actual form submission logic
+      //Optionally redirect: 
+      resetAndRedirectToHome();
+     
+    }
+
+    // Attach validation on input
+    document.getElementById("paymentForm").addEventListener("input", function () {
+      validatePayment();
+    });
+
+
+    function resetAndRedirectToHome() {
+  // Clear local storage, session storage, and cookies
+  localStorage.clear();
+  sessionStorage.clear();
+  
+  // Clear cookies (if any cookies need to be deleted)
+  document.cookie.split(";").forEach(function(c) {
+    document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+  });
+
+  // Redirect to homepage
+  window.location.href = "success-page.html";// Replace '/' with the path to your homepage
+}
+  </script>
+</body>
+</html>

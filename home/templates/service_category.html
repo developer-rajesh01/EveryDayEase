@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}EveryDayEase | {{slug | title}} Services{% endblock title %}
+
+{% block main %}
+{% load static %}
+{% load humanize %}
+
+<div class="container-fluid my-5 pb-0 py-5">
+    <div class="container">
+      <h1 class="text-center">{{slug | title}} Service Providers</h1>
+      <p class="text-muted text-center fw-bold">Have questions or need assistance? We're here to help! Reach out to us and let's connect.</p>
+      <div class="d-flex justify-content-center">
+        <a href="/contact-us" class="btn btn-info px-5 fs-5 ">contact-us</a>
+      </div>
+    </div>
+  </div>
+  <nav aria-label="breadcrumb" class="py-0 my-0 mx-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/services">Services</a></li>
+      <li class="breadcrumb-item Active" aria-current="page">{{slug}}</li>
+    </ol>
+  </nav>
+  <hr>
+  <style>
+    .card{
+      width: 20rem !important;
+      margin: 3px;
+    }
+    h3{
+      font-size: 1.2rem;
+    }
+  </style>
+  <div class="">
+<!-- user
+contact_number
+created_at
+updated_at -->
+    <!-- Row 1 -->
+    <div class="row p-2">
+        {% for provider in providers %}
+            <a href="/services/{{slug}}/{{provider.id}}/{{provider.business_name}}" style="text-decoration: none;" class="card my-2 p-0 mx-auto">
+                <div class="card-image">
+                <img  src="{{provider.profile_picture.url}}" class="w-100 rounded-top" alt="Beautiful">
+                </div>
+                <div class="card-content p-2">
+                <h3>{{provider.business_name}}</h3>
+                <p class="d-flex">
+                    <span style="font-size: 14px;" class="fw-bold text-muted me-auto">Status: <span class="{% if provider.status == "Active" %} text-success {% elif provider.status == "Inactive" %} text-warning {% else %} text-info {% endif %}">{{provider.status}}</span></span>
+                    <span style="font-size: 14px;" class="fw-bold text-muted">Rating: {{provider.rating}}</span>
+                </p>
+                <p style="font-size: 13px;" class="text-muted">{{provider.address}}, {{provider.city}}, {{provider.state}} ({{provider.zip_code}})</p>
+                <p style="font-size: 13px;" class="d-flex p-0">
+                    <span class="text-muted me-auto">Phone: {{provider.contact_number}}</span>
+                    <span class="text-muted">Update on: {{provider.updated_at |naturaltime}}</span>
+                </p>
+                  <div class="d-flex justify-content-evenly">
+                    {% comment %} <div class="me-auto"><button class="btn btn-sm btn-dark px-3">Connect</button></div> {% endcomment %}
+                    <div class=""><button class="btn btn-sm"><i class="bi bi-hand-thumbs-up"></i>0.9k</button></div>
+                    <div class=""><button class="btn btn-sm"><i class="bi bi-bookmark-plus"></i> 3.1k</button></div>
+                    <div class=""><button class="btn btn-sm"><i class="bi bi-send"></i></button>12.3k</div>
+                  </div>
+                </div>
+            </a>
+        {% empty %}
+        <div class="d-flex flex-column my-3">
+          <h3 class="text-center text-info">There is not anyone provides the <strong>{{slug}}</strong> services</h3>
+          <h6 class="text-center text-muted">will be available in few days</h6>
+          <p class="text-muted text-center">If you provides the {{slug}} services ! <a href="/accounts/admin/home/serviceprovider/add/">Register Now</a> </p>
+          <a href="/services" class="btn btn-dark mx-auto my-4">Find Other Services</a>
+        </div>
+        {% endfor %}
+      
+    </div>
+
+  </div>
+{% endblock main %}

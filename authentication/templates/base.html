@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    {% load static %}
+
+    <style>
+        
+      #chart-container {
+          width: 50%;
+          margin: 0 auto;
+      }
+
+      .outline-none {
+          outline: none !important;
+          border: none !important;
+      }
+      
+      .channels-img a img
+      {
+          aspect-ratio: 8/2;
+          object-fit:contain;
+          transition: transform 0.7s;
+      }
+      .channels-img a:hover img{
+          transform: scale(1.3) !important;
+      }
+
+      
+      #profilebtn span{
+          transition:transform 0.2s;
+      }
+      #profilebtn:hover span{
+          transform: scale(1.05);
+      }
+
+      
+
+  </style>
+  </head>
+  <body style="padding:0px !important;overflow-x: hidden;">
+    <nav class="navbar navbar-expand-lg bg-dark position-fixed shadow-lg top-0 w-100" style="z-index: 100;">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="/"><img src="{% static 'assets/img/letter-e.png' %}" style="width:3rem;" alt=""> 
+              <span class="fs-4 text-white mx-2" style="font-family:'Times New Roman', Times, serif;font-weight: bold;">EveryDayEase</span>
+          </a>
+
+            
+        
+          {% if request.user.is_authenticated %}
+              <button id="profilebtn" title="{{request.user.get_full_name}}" class="bg-transparent btn p-0 d-flex flex-column justify-content-center align-items-start border-none outline-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-label="Toggle navigation">
+                  <img src="{{request.user.profile_image.url}}" class="rounded-circle shadow-lg shadow-warning" width="50px" height="50px" alt="">
+                  {% comment %} <span class="text-white"  style="font-size: 12px;font-weight: bolder;word-spacing: -1.8px;">{{request.user.get_full_name}}</span> {% endcomment %}
+              </button>
+
+          {% else %}
+              <button style="width:30px;height:30px;display:flex;justify-content:center;align-items:center;" title="Login/Singup" class="p-0 btn bg-transparent mx-1 border-none outline-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                  <i class="bi bi-person-circle fs-1 text-white"></i>
+              </button>
+          {% endif %}
+
+      </div>
+  </nav>
+
+    
+    {% block main %} 
+    {% endblock main %}
+
+
+  
+    <footer class="bg-dark text-light pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <!-- Site Navigation Links -->
+                <div class="col-md-4">
+                    <h5>Navigation</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#about" class="text-light">About</a></li>
+                        <li><a href="#features" class="text-light">Features</a></li>
+                        <li><a href="#how-it-works" class="text-light">How It Works</a></li>
+                        <li><a href="#fact-check" class="text-light">Fact-Checking</a></li>
+                        <li><a href="#contact" class="text-light">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Help and Support Links in Columns -->
+                <div class="col-md-4">
+                    <h5>Help & Support</h5>
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-unstyled">
+                                <li><a href="#faq" class="text-light">FAQs</a></li>
+                                <li><a href="#support" class="text-light">Help Center</a></li>
+                                <li><a href="#guide" class="text-light">User Guide</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="list-unstyled">
+                                <li><a href="#terms" class="text-light">Terms of Service</a></li>
+                                <li><a href="#privacy" class="text-light">Privacy Policy</a></li>
+                                <li><a href="#report" class="text-light">Report an Issue</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="col-md-4">
+                    <h5>Search the Site</h5>
+                    <form class="card flex-row " method="post">
+                        {% csrf_token %}
+                        <input required class="w-100 outline-none p-1 m-0" type="email" placeholder="Email address" />
+                        <input type="submit" value="Subscribe" class="btn btn-dark" >
+                    </form>
+                </div>
+            </div>
+
+            <hr class="bg-light">
+
+            <!-- Copyright and Terms -->
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2024 EveryDayEase</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="#terms" class="text-light me-2">Terms of Service</a>
+                    <a href="#privacy" class="text-light">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+  <!-- Modal for account center -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    
+    <div class="offcanvas-body">
+        <div class="modal-content h-100">
+        <div class="modal-header d-flex justify-content-between">
+            <h1 class="modal-title fs-6" >Account Center</h1>
+            
+            {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                    <a href="/accounts/admin/" target="_blank" type="button" class="btn btn-scroll"><i class="bi bi-gear fs-4"></i> </a>
+                {% endif %}
+            {% endif %}
+            <button type="button btn border-none outline-none" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+        </div>
+    
+        {% if request.user.is_authenticated %}
+
+        <div class="modal-body p-2">
+
+            <div class="row border shadow-lg p-2 rounded">
+            <div class="col"><img width="80px" height="80px" id="profileimg" class="rounded shadow-lg" src="{{request.user.profile_image.url}}" alt=""></div>
+            <div class="col">
+                <h5 class="text-center">{{request.user.get_full_name}} <span style="font-size:10px">{% if request.user.gender != none %}{{request.user.gender}}{% endif %} </span></h5>
+                <p class="p-0 m-0 text-center"> {{request.user.username}} </p>
+
+                <small class="text-center">{{request.user.email}}</small>
+            </div>
+
+            <details class="p-1 m-0 text-start" style="font-size: 12px;">
+                <summary>About me</summary>
+                <p> {{request.user.bio}}</p>
+                </details>
+
+            </div>
+            
+
+            <div class="row my-1 border d-flex justify-content-between shadow-lg p-2 rounded">
+                <div class="col text-info p-2"><i class="bi bi-person-lines-fill mx-2 fs-6"></i>Porfile</div>
+                <div class="col-md-4 p-2" style="text-align: right;"><a href="/accounts/profile" class="text-info"><i class="bi bi-box-arrow-up-right text-info mx-1"></i> Go to</a></div>
+            </div>
+            
+            <div class="row my-1 border d-flex justify-content-between shadow-lg p-2 rounded">
+                <div class="col text-warning p-2"><i class="bi bi-key mx-2 fs-5"></i>Change Passowrd</div>
+                <div class="col-md-4 p-2" style="text-align: right;"><a href="/accounts/password/change" class="text-success"><i class="bi bi-box-arrow-up-right text-success mx-1"></i> Go to</a></div>
+            </div>
+
+            
+
+            
+        </div>
+        {% else %}
+        <div class="modal-body p-2">
+            <div class="row border shadow-lg p-2 rounded">
+            <div class="m-1 my-3 w-100 border-warning">
+
+                <h3>Login your account</h3>
+                <a href="/accounts/login" class="btn btn-primary w-100">Login</a>
+            </div>
+
+            <div class="m-1 my-3 w-100 border-danger">
+
+                <h3 class="border-top">Create new account</h3>
+                <a href="/accounts/signup" class="btn btn-warning w-100">Resister</a>
+            </div>
+            </div>       
+        </div>
+
+        {% endif %}
+
+        
+        <div class="modal-footer m-0 mt-2 p-0 mb-3 ">
+            
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2 text-danger"><i class="bi bi-shield-lock-fill  mx-2"></i>Privacy</div>
+            <div class="col p-2" style="text-align: right;"><a href="#" class="text-danger"><i class="bi bi-box-arrow-up-right text-danger mx-1 "></i> Go to</a></div>
+            </div>
+
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2 text-info"><i class="bi bi-person-raised-hand  mx-2"></i>Contant?Help</div>
+            <div class="col p-2" style="text-align: right;"><a href="/contact-us/" class="text-info"><i class="bi bi-box-arrow-up-right text-omf mx-1 "></i> Go to</a></div>
+            </div>
+
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2 text-warning"><i class="bi bi-info-circle-fill  mx-2"></i>About</div>
+            <div class="col p-2" style="text-align: right;"><a href="/about-us/" class="text-warning"><i class="bi bi-box-arrow-up-right text-warning mx-1 "></i> Go to</a></div>
+            </div>
+
+            <!-- // Log-Out user -->
+            {% if request.user.is_authenticated %}
+
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2" style="color: #15d84c !important;"><i class="bi bi-person-dash mx-2"></i>Log-Out</div>
+            <div class="col p-2 text-end">
+                <div class="form-check form-switch">
+                <a href="/accounts/logout" class="btn text-success"><i class="bi bi-box-arrow-right text-success"></i></a>
+                </div>
+            </div>
+            </div>
+            {% endif %}
+
+        </div>
+        </div>
+    </div>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  </body>
+</html>

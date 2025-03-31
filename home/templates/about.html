@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}EveryDayEase | About{% endblock title %}
+
+{% block main %}
+{% load static %}
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+
+      .about-container {
+        display: flex;
+        align-items: center;
+        margin-top: 3rem;
+        gap: 2rem;
+      }
+
+      .about-img img {
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .about-content h5 {
+        color: #f39c12;
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .about-content h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      .about-content p {
+        color: #555;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        gap: 0.8rem;
+      }
+
+      .feature-item i {
+        color: #f39c12;
+        font-size: 1.5rem;
+      }
+
+      .feature-item p {
+        margin: 0;
+        font-size: 1rem;
+        color: #333;
+      }
+    </style>
+  </head>
+    <div class="container py-4">
+      <div class="about-container">
+        <div class="about-img col-lg-6">
+          <img src="{% static 'assets/img/about/about.webp' %}" alt="About Us" class="img-fluid" />
+        </div>
+        <div class="about-content col-lg-6 mt-5">
+          <h5> <i class="bi bi-chevron-double-right"></i>About Company</h5>
+          <h1>
+            Best Solution For <br />
+            Different Type <br />
+            Services
+          </h1>
+          <p>
+            Our Professional Website Setup service offers a comprehensive,
+            fixed-price package designed.
+          </p>
+          <div class="feature-item">
+            <i class="bi bi-check-circle"></i>
+            <p>Free access to thousands of job opportunities</p>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-check-circle"></i>
+            <p>Grow your business and client base</p>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-check-circle"></i>
+            <p>Earn extra income on a flexible schedule</p>
+          </div>
+          <div class="feature-item">
+            <i class="bi bi-check-circle"></i>
+            <p>No subscription or credit fees</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock main %}
+  

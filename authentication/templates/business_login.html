@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}User Sign{% endblock title %}
+
+{% block main %}
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #2d2d2d;
+    color: #ccc;
+  }
+
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+
+  .containerd {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 900px;
+    transition: all 0.5s ease;
+    margin-top: 120px;
+    margin-bottom: 30px;
+  }
+
+  .left,
+  .right {
+    padding: 40px;
+    flex: 1;
+    transition: all 0.5s ease;
+  }
+
+  .left h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .left h1 span {
+    color: #1976d2;
+  }
+
+  .left p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #aaa;
+    margin-top: 20px;
+  }
+
+  .right input[type="text"],
+  .right input[type="email"],
+  .right input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: #ccc;
+    font-size: 1rem;
+  }
+
+  .right label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+
+  .right label input {
+    margin-right: 10px;
+  }
+
+  .right button {
+    width: 100%;
+    background-color: #2a0dad;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .right button:hover {
+    background-color: #005bb5;
+  }
+
+  .right .social {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .right .social a {
+    margin: 0 10px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-size: 18px;
+  }
+
+  .right .social span {
+    font-size: 14px;
+  }
+
+  .right .social a:hover {
+    color: #1976d2;
+  }
+
+  .swapped {
+    flex-direction: row-reverse;
+  }
+
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: -15px;
+    margin-bottom: 15px;
+  }
+
+</style>
+<script>
+</script>
+<section>
+  <div class="containerd mx-auto" id="container" style="margin-top: 10%;">
+    <div class="left" id="left">
+      <h1>The best offer <br> <span>on services</span></h1>
+      <p>Access your account to manage your services and explore more features. <br>
+        Log in to continue where you left off and take full control of your experience. </p>
+    </div>
+    <div class="right" id="right">
+      <!-- Show Non-Field Errors (General Errors) -->
+       <!-- Display Django messages (like success or error messages) -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+                
+
+
+      {% if form.non_field_errors %}
+      <div class="error">
+        {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <form id="form" method="post" action="/accounts/business_signin/">
+        {% csrf_token %}
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        {% if form.password.errors %}
+        <p class="error">{{ form.password.errors.0 }}</p>
+        {% endif %}
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        {% if form.password.errors %}
+        <p class="error">{{ form.password.errors.0 }}</p>
+        {% endif %}
+
+        <button type="submit">Log in</button>
+
+        <div class="social">
+          <!-- or sign up with:<br> -->
+          <a href="/accounts/password/reset/">Forget password?</a><br>
+
+          <span>New to EveryDayEase?</span><a href="/accounts/business_signup/">Create Account</a>
+          <!-- <a href="#">T</a>
+                    <a href="#">Git</a> -->
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+
+</section>
+{% endblock main %}

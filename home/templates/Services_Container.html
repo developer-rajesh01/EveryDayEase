@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}EveryDayEase | Serivces{% endblock title %}
+
+{% block main %}
+  
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'assets/css/Services_Container.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+
+  <div class="container-fluid my-5 pb-0 py-5">
+    <div class="container">
+      <h1 class="text-center">Our Services</h1>
+      <p class="text-muted text-center fw-bold">Have questions or need assistance? We're here to help! Reach out to us and let's connect.</p>
+      <div class="d-flex justify-content-center">
+        <a href="/contact-us" class="btn btn-info px-5 fs-5 ">contact-us</a>
+      </div>
+    </div>
+  </div>
+
+  <nav aria-label="breadcrumb" class="py-0 my-0 mx-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item Active" aria-current="page">Services</li>
+    </ol>
+  </nav>
+  <hr>
+
+  
+  <style>
+    .card{
+      width: 20rem !important;
+      margin: 3px;
+    }
+    h3{
+      font-size: 1.2rem;
+    }
+  </style>
+  <div class="containers">
+    <!-- Row 1 -->
+    <div class="row">
+      <a href="medical/" style="text-decoration: none;" class="card">
+        <div class="card-image">
+          <img  src="{% static 'assets/img/Services Containers/Medical service.png' %}" alt="Beautiful Home">
+        </div>
+        <div class="card-content">
+          <h3>Medical</h3>
+          <p class="price">Complete checkups, expert care, early detection, total health, peace of mind.</p>
+        </div>
+      </a>
+      <a href="electrician/" style="text-decoration: none;" class="card">
+        <div class="card-image">
+          <img src="{% static 'assets/img/Services Containers/Electrician repairing electric.png' %}" alt="Modern Apartment">
+        </div>
+        <div class="card-content">
+          <h3>Electrician</h3>
+          <p class="price">Eliable electricians, expert repairs, safe installations, efficient solutions, trusted service.</p>
+         
+        </div>
+      </a>
+      <a href="cleaning/" style="text-decoration: none;" class="card">
+        <div class="card-image">
+          <img src="{% static 'assets/img/Services Containers/Cleaning service.png' %}" alt="Luxury Villa">
+        </div>
+        <div class="card-content">
+          
+          <h3>cleaning</h3>
+          <p class="price">Spotless cleaning, expert care, fresh spaces, reliable service, exceptional results.</p>
+          
+        </div>
+      </a>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="row">
+      <a href="mechanical/" style="text-decoration: none;" class="card">
+        <div class="card-image">
+          <img src="{% static 'assets/img/Services Containers/Mechanical Services.png' %}" alt="Cozy Cottage">
+        </div>
+        <div class="card-content">
+          <h3>Mechanical</h3>
+          <p class="price">Reliable repairs, expert service, efficient solutions, trusted mechanics, quality workmanship.</p>
+        </div>
+      </a>
+      <a href="doors/" style="text-decoration: none;" class="card">
+        <div class="card-image">
+          <img src="{% static 'assets/img/Services Containers/Door to door Services.png' %}" alt="Beachfront Property">
+        </div>
+        <div class="card-content">
+          
+          <h3>Door to Door shop</h3>
+          <p class="price">Get stylish clothes and elegant jewelry delivered to your doorstep with hassle-free shopping.</p>
+          
+        </div>
+      </a>
+      
+      </div>
+    </div>
+  </div>
+
+{% endblock main %}

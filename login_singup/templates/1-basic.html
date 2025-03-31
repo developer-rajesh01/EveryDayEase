@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Registration - Basic Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      width: 50%;
+      margin: 50px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar div {
+      width: 100%;
+      height: 8px;
+      background-color: #ddd;
+      border-radius: 4px;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    .progress-bar div.active {
+      background-color: #4CAF50;
+    }
+
+    .progress-bar div:last-child {
+      margin-right: 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .verification-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      background-color: #4CAF50;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button[disabled] {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    #verificationStatus {
+      margin-top: -10px;
+      margin-bottom: 10px;
+      color: green;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="active"></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <h2>Step 1: Basic Information</h2>
+
+    <form id="registrationForm">
+      <!-- Full Name -->
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" placeholder="Enter your full name" required>
+
+      <!-- Business/Brand Name -->
+      <label for="businessName">Business/Brand Name</label>
+      <input type="text" id="businessName" placeholder="Enter your business/brand name" required>
+
+      <!-- Contact Number with OTP Verification -->
+      <label for="contactNumber">Contact Number</label>
+      <div class="verification-group">
+        <input type="number" id="contactNumber" placeholder="Enter mobile number" required>
+        <button type="button" id="sendOtpButton" onclick="sendMobileOTP()">Send OTP</button>
+        <input type="number" id="otpInput" placeholder="Enter OTP" style="display: none;" required>
+        <button type="button" id="verifyOtpButton" style="display: none;" onclick="verifyMobileOTP()">Verify
+          OTP</button>
+      </div>
+      <p id="mobileOtpStatus" style="color: green; display: none;">Mobile OTP Verified!</p>
+
+      <!-- Email Address with Verification -->
+      <label for="email">Email Address</label>
+      <div class="verification-group">
+        <input type="email" id="email" placeholder="Enter your email address" required>
+        <button type="button" id="sendEmailOtpButton" onclick="sendEmailOTP()">Send OTP</button>
+        <input type="number" id="emailOtpInput" placeholder="Enter OTP" style="display: none;" required>
+        <button type="button" id="verifyEmailOtpButton" style="display: none;" onclick="verifyEmailOTP()">Verify
+          OTP</button>
+      </div>
+      <p id="emailOtpStatus" style="color: green; display: none;">Email OTP Verified!</p>
+
+      <!-- Navigation Buttons -->
+      <div class="buttons">
+        <button type="button" id="prevButton" disabled>Previous</button>
+        <button type="button" id="nextButton" onclick="goToNext()">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let mobileOtp, emailOtp; // Store OTPs for verification
+    let mobileTimer, emailTimer;
+    function goToNext() {
+      const fullName = document.getElementById("fullName").value.trim();
+      const businessName = document.getElementById("businessName").value.trim();
+      const contactNumber = document.getElementById("contactNumber").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const isMobileVerified = document.getElementById("mobileOtpStatus").style.display === "block";
+      const isEmailVerified = document.getElementById("emailOtpStatus").style.display === "block";
+
+      if (!fullName || !businessName || !contactNumber || !email) {
+        alert("Please fill out all fields before proceeding.");
+        return;
+      }
+
+      if (!isMobileVerified) {
+        alert("Please verify your mobile number before proceeding.");
+        return;
+      }
+
+      if (!isEmailVerified) {
+        alert("Please verify your email address before proceeding.");
+        return;
+      }
+
+      // If all conditions are met, navigate to the next page
+      window.location.href = "2-service_details.html"; // Replace with actual navigation URL
+    }
+
+    function sendMobileOTP() {
+      const contactNumber = document.getElementById("contactNumber").value;
+      if (!contactNumber || contactNumber.length !== 10) {
+        alert("Please enter a valid 10-digit mobile number!");
+        return;
+      }
+      mobileOtp = Math.floor(1000 + Math.random() * 9000); // Generate 4-digit OTP
+      alert(`Your Mobile OTP is ${mobileOtp}`); // Simulate OTP sending
+      document.getElementById("otpInput").style.display = "block";
+      document.getElementById("verifyOtpButton").style.display = "block";
+      document.getElementById("sendOtpButton").style.display = "none";
+    }
+
+    function verifyMobileOTP() {
+      const enteredOtp = document.getElementById("otpInput").value;
+      if (parseInt(enteredOtp) === mobileOtp) {
+        document.getElementById("mobileOtpStatus").style.display = "block";
+        document.getElementById("otpInput").style.display = "none";
+        document.getElementById("verifyOtpButton").style.display = "none";
+        checkVerificationStatus();
+      } else {
+        alert("Invalid Mobile OTP! Please try again.");
+      }
+    }
+
+    function sendEmailOTP() {
+      const email = document.getElementById("email").value;
+      if (!email.includes("@")) {
+        alert("Please enter a valid email address!");
+        return;
+      }
+      emailOtp = Math.floor(1000 + Math.random() * 9000); // Generate 4-digit OTP
+      alert(`Your Email OTP is ${emailOtp}`); // Simulate OTP sending
+      document.getElementById("emailOtpInput").style.display = "block";
+      document.getElementById("verifyEmailOtpButton").style.display = "block";
+      document.getElementById("sendEmailOtpButton").style.display = "none";
+    }
+
+    function verifyEmailOTP() {
+      const enteredOtp = document.getElementById("emailOtpInput").value;
+      if (parseInt(enteredOtp) === emailOtp) {
+        document.getElementById("emailOtpStatus").style.display = "block";
+        document.getElementById("emailOtpInput").style.display = "none";
+        document.getElementById("verifyEmailOtpButton").style.display = "none";
+        checkVerificationStatus();
+      } else {
+        alert("Invalid Email OTP! Please try again.");
+      }
+    }
+
+    function checkVerificationStatus() {
+      const isMobileVerified = document.getElementById("mobileOtpStatus").style.display === "block";
+      const isEmailVerified = document.getElementById("emailOtpStatus").style.display === "block";
+      const isFormFilled =
+        document.getElementById("fullName").value &&
+        document.getElementById("businessName").value &&
+        document.getElementById("contactNumber").value &&
+        document.getElementById("email").value;
+      if (isMobileVerified && isEmailVerified && isFormFilled) {
+        document.getElementById("nextButton").disabled = false;
+      }
+    }
+
+    
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}EveryDayEase | Search{% endblock title %}
+
+{% block main %}
+{% load static %}
+{% load humanize %}
+<div class="container py-5 my-5">
+    
+    <form action="/services/search/" class="my-2" method="get">
+        <div class="d-flex flex-nowrap justify-content-start mx-auto form-control p-0 align-items-center" style="max-width: 30rem;">
+            <div class=""><i class="bi bi-search mx-2"></i></div>
+            <div class="w-100">
+                <input type="search" class="w-100" required  name="q" id="" value="{{query}}" placeholder="search for services" style="border: none;outline: none !important;font-size: 12px;">
+            </div>
+            <div class=""><Button type="submit" class="btn btn-sm btn-dark">Search</Button></div>
+        </div>
+    </form>
+
+    <h5>Search Results for "{{ query }}"</h5>
+
+    <hr>
+    {% if providers or services %}
+
+        {% if providers %}
+            <h4>Service Providers</h4>
+            <ul>
+                {% for provider in providers %}
+                    <!-- <li>
+                        <a href="/services/{{provider.category}}/{{provider.id}}/{{provider}}/">{{ provider.business_name }}</a> - {{ provider.category }}
+                    </li> -->
+                    <div class="row my-3">
+                        <div class="col-lg-3">
+                            <div class="card overflow-hidden">
+                                <img src="{{provider.profile_picture.url}}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="card-body m-2">
+                                <h3 class="p-0 m-0" style="font-size:16px;">{{provider.business_name|title}}
+                                <span class="" style="font-size: 12px;font-weight: 600;"><span class="text-bg-success px-2 py-1 rounded me-2" >{{provider.rating}} <i class="bi bi-star-fill"></i></span> 245 Rating</span></h3>
+                                <p class="text-muted m-0 my-1" style="font-size: 15px;" >Location: {{provider.address}}, {{provider.city}} {{provider.state}}, ({{provider.zip_code}})</p>
+                                <p class="text-secondary d-flex m-0 my-1 p-0" style="font-size: 13px;font-weight: 600;"><span class="fw-bold me-2">Service Type: </span><span>{{provider.category}}</span></p>
+                                <h6 class="font-weight-light" style="font-size: 15px;font-weight:400;">{% if provider.status %} <span class="text-success font-weight-light">Availabile</span> {% else %} <span class="text-warning">Unavailabile</span> {% endif %} | <span>Phone: {{provider.contact_number}}</span></h6>
+
+                                <a class="btn btn-dark rounded-pill btn-sm px-3 my-1 btn-md" href="/services/{{provider.category|lower}}/{{provider.id}}/{{provider}}/"><span>
+                                    Explore Services
+                                </span></a>
+                            </div>
+
+                        </div>
+                    </div>
+                {% empty %}
+                    <li>No providers found.</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if services %}
+            <h4>Services</h4>
+            <div class="container">
+
+                {% for service in services %}
+                    <!-- <a  class="w-100 text-decoration-none my-2"> -->
+                        <div class="row my-3">
+                            <div class="col-lg-3">
+                                <div class="card overflow-hidden">
+                                    <img src="{{service.service_image.url}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="card-body m-2">
+                                    <h3 class="p-0 m-0" style="font-size:16px;">{{service.service_name|title}}
+                                    <span class="" style="font-size: 12px;font-weight: 600;"><span class="text-bg-success px-2 py-1 rounded me-2" >{{service.rating}} <i class="bi bi-star-fill"></i></span> 245 Rating</span></h3>
+                                    <p class="text-muted m-0 my-1" style="font-size: 15px;" >{{service.description}}</p>
+                                    <p class="text-secondary d-flex m-0 my-1 p-0" style="font-size: 13px;font-weight: 600;"><span class="fw-bold me-2">Provicer</span><span>{{service.provider}}</span></p>
+                                    <h6 class="font-weight-light">Price: ₹{{service.price |floatformat:"0"|intcomma}} | {% if service.availability %} <span class="text-success font-weight-light">Availabile</span> {% else %} <span class="text-warning">Unavailabile</span> {% endif %}</h6>
+
+                                    <a class="btn btn-dark rounded-pill btn-sm px-3 my-1 btn-md" href="/services/{{service.category|lower}}/{{service.provider.id}}/{{service.provider}}/{{service.service_name}}"><span>
+                                        {% if service.category|lower == "medical" %}
+                                        Connect Doctor
+                                        {% elif service.category|lower == "mechanical" %}
+                                        Connect Mechanic
+                                        {% elif service.category|lower == "electrician" %}
+                                        Connect Electrician
+                
+                                        {% elif service.category|lower == "cleaning" %}
+                                        Connect Cleaner
+                                        
+                                        {% endif %}
+                                    </span></a>
+                                </div>
+
+                            </div>
+                        </div>
+                {% empty %}
+                    <li>No services found.</li>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</div>
+{% endblock main %}
+

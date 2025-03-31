@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      width: 50%;
+      margin: 50px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar div {
+      width: 100%;
+      height: 8px;
+      background-color: #ddd;
+      border-radius: 4px;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    .progress-bar div.active {
+      background-color: #4CAF50;
+    }
+
+    .progress-bar div:last-child {
+      margin-right: 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    select, input[type="text"], input[type="file"], input[type="time"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .specializations {
+      display: none;
+      margin-bottom: 15px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+    }
+
+    .checkbox-group input {
+      margin-right: 5px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      background-color: #4CAF50;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button[disabled] {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="active"></div>
+      <div class="active"></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <h2>Step 2: Service Details</h2>
+
+    <form id="serviceDetailsForm">
+      <!-- Service Type -->
+      <label for="serviceType">Service Type</label>
+      <select id="serviceType" required onchange="updateSpecializations()">
+        <option value="" disabled selected>Select a service type</option>
+        <option value="medical">Medical</option>
+        <option value="mechanical">Mechanical</option>
+        <option value="electrical">Electrical</option>
+        <option value="cleaning">Cleaning</option>
+        <option value="door-to-door">Door-to-Door Shop</option>
+      </select>
+
+      <!-- Specializations -->
+      <div class="specializations" id="specializations">
+        <label>Specializations</label>
+        <div class="checkbox-group" id="specializationOptions"></div>
+      </div>
+
+      <!-- Experience -->
+      <label for="experience">Experience (in years)</label>
+      <input type="text" id="experience" placeholder="Enter your years of experience" required>
+
+      <!-- Certification -->
+      <label for="certification">Certification (if any)</label>
+      <input type="text" id="certification" placeholder="Enter certification name (if applicable)">
+      <label for="certificationFile">Upload Certification (PDF)</label>
+      <input type="file" id="certificationFile" accept=".pdf">
+
+      <!-- Service Timings -->
+      <label for="startTime">Start Time</label>
+      <input type="time" id="startTime" required>
+
+      <label for="endTime">End Time</label>
+      <input type="time" id="endTime" required>
+
+      <!-- Navigation Buttons -->
+      <div class="buttons">
+        <button type="button" id="prevButton" onclick="goToPrevious()">Previous</button>
+        <button type="button" id="nextButton" class="hidden" onclick="goToNext()">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Specializations data
+    const specializationsData = {
+      medical: ["Blood Checkup", "Full Body Checkup"],
+      mechanical: ["Bike Repair", "Car Repair", "Parts Replacement"],
+      electrical: ["Wiring", "Repairing"],
+      cleaning: ["Residential Cleaning", "Deep Cleaning", "Spring Cleaning"],
+      "door-to-door": ["Cloth Service"]
+    };
+
+    // Update Specializations based on selected Service Type
+    function updateSpecializations() {
+      const serviceType = document.getElementById("serviceType").value;
+      const specializationsDiv = document.getElementById("specializations");
+      const specializationOptions = document.getElementById("specializationOptions");
+
+      // Clear previous options
+      specializationOptions.innerHTML = "";
+
+      if (specializationsData[serviceType]) {
+        specializationsData[serviceType].forEach(spec => {
+          const label = document.createElement("label");
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = spec;
+          checkbox.name = "specializations";
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(spec));
+          specializationOptions.appendChild(label);
+        });
+        specializationsDiv.style.display = "block";
+      } else {
+        specializationsDiv.style.display = "none";
+      }
+      validateForm();
+    }
+
+    // Validate the form and show/hide the Next button
+    function validateForm() {
+      const serviceType = document.getElementById("serviceType").value;
+      const experience = document.getElementById("experience").value;
+      const startTime = document.getElementById("startTime").value;
+      const endTime = document.getElementById("endTime").value;
+
+      const isValid = serviceType && experience && startTime && endTime;
+      document.getElementById("nextButton").classList.toggle("hidden", !isValid);
+    }
+
+    // Handle navigation
+    function goToPrevious() {
+      window.location.href="1-basic.html"  // Replace with actual navigation
+    }
+
+    function goToNext() {
+      window.location.href="3-address.html"  // Replace with actual navigation
+    }
+
+    // Attach event listeners
+    document.getElementById("serviceDetailsForm").addEventListener("input", validateForm);
+  </script>
+</body>
+</html>

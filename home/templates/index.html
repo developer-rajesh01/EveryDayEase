@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>EveryDayEase | Home</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  {% load static %}
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/letter-e.png' %}" rel="icon">
+  <link href="{% static 'assets/img/letter-e.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/why_us.css' %}" rel="stylesheet">
+
+  <style>
+    .outline-none{
+      outline: none !important;
+      border: none !important;
+    }
+  </style>
+
+</head>
+
+<body class="index-page" style="padding: 0px !important;">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename fs-2 d-flex flex-nowrap">EveryDayEase</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li>
+            <form action="/services/search/" method="get">
+            <div class="d-flex flex-nowrap justify-content-start form-control bg-transparent p-0 align-items-center">
+              <div class=""><i class="bi bi-search mx-2 text-white"></i></div>
+                  <div class="me-auto">
+                      <input type="search" required class="bg-transparent text-white"  name="q" id="" placeholder="search for services" style="border: none;outline: none !important;font-size: 12px;">
+                  </div>
+                  <div class=""><Button type="submit" class="btn btn-sm btn-light rounded-0 rounded-end">Search</Button></div>
+                </div>
+            </form>
+          </li>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="/about-us">About</a></li>
+         
+          <li class="dropdown"><a href="/services"><span>Services</span> </a>
+            <ul>
+              <li class="dropdown"><a href="/services/medical/"><span>Medical</span></a>
+                <!-- <ul>
+                  <li><a href="/services/medical/1/City%20Hospital/Blood%20Test">Blood Test</a></li>
+                  <li><a href="#">Full Body checkup </a></li>
+                </ul> -->
+              <!-- </li> -->
+              <li class="dropdown"><a href="/services/Mechanical/"><span>Mechanical</span> </a>
+                <!-- <ul>
+                  <li><a href="#">Bike</a></li>
+                  <li><a href="#">Car </a></li>
+                  <li><a href="#">Parts</a></li>
+                </ul> -->
+              </li>
+              <li class="dropdown"><a href="/services/Electrician/"><span>Electrician</span> </a>
+                <!-- <ul>
+                  <li><a href="#">lightning Electric</a></li>
+                  <li><a href="#">Spark Electricians </a></li>
+                </ul> -->
+              </li>
+              <li class="dropdown"><a href="/services/cleaning/"><span>Cleaning</span> </a>
+                <!-- <ul>
+                  <li><a href="#">Clean Machine</a></li>
+                  <li><a href="#">Clean House </a></li>
+                </ul> -->
+              </li>
+            </ul>
+          </li>
+          <li><a href="/contact-us">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        
+      </nav>
+
+      {% comment %} <a class="btn-getstarted" href="/accounts/login">Get Started</a> {% endcomment %}
+
+      {% if request.user.is_authenticated %}
+          <button id="profilebtn" title="{{request.user.get_full_name}}" class="btn-getstarted bg-transparent btn d-flex flex-column justify-content-center align-items-start outline-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight2" aria-controls="offcanvasRight2" aria-label="Toggle navigation">
+              <img src="{{request.user.profile_image.url}}" class="rounded-circle shadow-lg shadow-warning" width="30px" height="30px" alt="">
+              <!-- <span class="text-white text-center w-100"  style="font-size: 10px;font-weight: bolder;word-spacing: -1.8px;">{{request.user.username}}</span> -->
+          </button>
+
+      {% else %}
+          <button style="width:30px;height:30px;display:flex;justify-content:center;align-items:center;" title="Login/Singup" class="btn-getstarted btn bg-transparent outline-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight2" aria-controls="offcanvasRight2" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+              <i class="bi bi-person-circle fs-1 text-white"></i>
+          </button>
+      {% endif %}
+
+
+    </div>
+  </header>
+
+  <main class="main p-0">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
+            <h1>Better Solutions For Your Business</h1>
+            <p>Make life easier with EveryEase—reliable, professional services delivered to your doorstep.</p>
+            <div class="d-flex">
+              <a href="/accounts/login" class="btn-get-started">Get Started</a>
+            </div>
+          </div>
+          <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200">
+            <img src="{% static 'assets/img/hero-img.png'%}" class="img-fluid animated" alt="">
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Clients Section -->
+    <!-- <section id="clients" class="clients section light-background">
+
+      <div class="container" data-aos="zoom-in">
+
+        <div class="swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              },
+              "breakpoints": {
+                "320": {
+                  "slidesPerView": 2,
+                  "spaceBetween": 40
+                },
+                "480": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 60
+                },
+                "640": {
+                  "slidesPerView": 4,
+                  "spaceBetween": 80
+                },
+                "992": {
+                  "slidesPerView": 5,
+                  "spaceBetween": 120
+                },
+                "1200": {
+                  "slidesPerView": 6,
+                  "spaceBetween": 120
+                }
+              }
+            }
+          </script>
+          <div class="swiper-wrapper align-items-center">
+            <div class="swiper-slide"><img src="assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>/Clients Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>About Us</h2>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <p>
+              EveryDayEase, we’re here to make your daily life easier. Our goal is to help you save time and effort by offering reliable services for your everyday needs.
+            </p>
+            <ul>
+              <li><i class="bi bi-check2-circle"></i> <span>Making your daily life easier, every day.</span></li>
+              <li><i class="bi bi-check2-circle"></i> <span>Your trusted partner for all daily needs.</span></li>
+              <li><i class="bi bi-check2-circle"></i> <span>Turning tasks into effortless moments.</span></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <p>
+              No matter the task, big or small, EveryDayEase is here to help you focus on what truly matters—your family, your work, and your passions.<br>
+              We provide a variety of everyday services, including home cleaning, repairs, errands, and more. Our goal is to save you time and effort by delivering high-quality, dependable support right when you need it.
+              <br>Choose EveryDayEase for a simpler, hassle-free life!
+            </p>
+            <a href="about-us" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section> <!-- /About Section -->
+    <!----WHY USE US-->
+    <section class="why-us">
+      <h1>WHY EveryDayEase SERVICES ?</h1>
+      <div class="features">
+        <div class="feature-item">
+          <div class="icon-container">
+            <img src="{% static 'assets/img/why-us/multiple-users-silhouette.png' %}" alt="All Services Icon">
+           
+          </div>
+          <p>All Services in Single Plateform</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon-container">
+            <img src="{% static 'assets/img/why-us/rupee-indian.png' %}" alt="Lower Rates Icon">
+          </div>
+          <p>Lower Rates using Bidding</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon-container">
+            <img src="{% static 'assets/img/why-us/user.png' %}" alt="Trusted Staff Icon">
+          </div>
+          <p>Trusted Experienced Staff</p>
+        </div>
+       
+      
+      </div>
+      <div class="features">
+        <div class="feature-item">
+          <div class="icon-container">
+            <img src="{% static 'assets/img/why-us/gears.png' %}" alt="Advanced Technology Icon">
+          </div>
+          <p>Advance Technology & Equipments</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon-container">
+            <img src="{% static 'assets/img/why-us/like.png' %}" alt="Quality Icon">
+          </div>
+          <p>100% Quality Guaranteed</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon-container">
+            <img src="{% static 'assets/img/why-us/networking.png' %}" alt="Customized Services Icon">
+          </div>
+          <p>Customized Services</p>
+        </div>
+      </div>
+    </section>
+    <!-- Skills Section -->
+    <section id="skills" class="skills section" style="background:transparent">
+      <h2 style="margin-left :10% ; ">FLOW :</h2>
+      <iframe src="/flow" width="100%" height="790px" style="border: none;"></iframe>
+    </section><!-- /Skills Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section light-background">
+      <h2 style="margin-left :10% ; margin-bottom: 2%; ">SERVICES :</h2>
+      <link rel="stylesheet" href="{% static 'assets/css/Services_Container.css' %}">
+      
+        <!-- Row 1 -->
+        <div class="row">
+          <a href="/services/medical/" style="text-decoration: none;" class="card">
+            <div class="card-image">
+              <img  src="{% static 'assets/img/Services Containers/Medical service.png' %}" alt="Beautiful Home">
+            </div>
+            <div class="card-content">
+              <h3>Medical</h3>
+              <p class="price">Complete checkups, expert care, early detection, total health, peace of mind.</p>
+            </div>
+          </a>
+          <a href="/services/electrician/" style="text-decoration: none;" class="card">
+            <div class="card-image">
+              <img src="{% static 'assets/img/Services Containers/Electrician repairing electric.png' %}" alt="Modern Apartment">
+            </div>
+            <div class="card-content">
+              <h3>Electrician</h3>
+              <p class="price">Eliable electricians, expert repairs, safe installations, efficient solutions, trusted service.</p>
+             
+            </div>
+          </a>
+          <a href="/services/cleaning/" style="text-decoration: none;" class="card">
+            <div class="card-image">
+              <img src="{% static 'assets/img/Services Containers/Cleaning service.png' %}" alt="Luxury Villa">
+            </div>
+            <div class="card-content">
+              
+              <h3>cleaning</h3>
+              <p class="price">Spotless cleaning, expert care, fresh spaces, reliable service, exceptional results.</p>
+              
+            </div>
+          </a>
+        </div>
+    
+        <!-- Row 2 -->
+        <div class="row">
+          <a href="/services/mechanical/" style="text-decoration: none;" class="card">
+            <div class="card-image">
+              <img src="{% static 'assets/img/Services Containers/Mechanical Services.png' %}" alt="Cozy Cottage">
+            </div>
+            <div class="card-content">
+              <h3>Mechanical</h3>
+              <p class="price">Reliable repairs, expert service, efficient solutions, trusted mechanics, quality workmanship.</p>
+            </div>
+          </a>
+          <a href="/services/doors/" style="text-decoration: none;" class="card">
+            <div class="card-image">
+              <img src="{% static 'assets/img/Services Containers/Door to door Services.png' %}" alt="Beachfront Property">
+            </div>
+            <div class="card-content">
+              
+              <h3>Door to Door shop</h3>
+              <p class="price">Get stylish clothes and elegant jewelry delivered to your doorstep with hassle-free shopping.</p>
+              
+            </div>
+          </a>
+          
+          </div>
+        </div>
+
+    </section><!-- /Services Section -->
+
+      <div class="row" style="padding-left: 10%; margin-top: 2%;">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+              <div class="single-counter">
+                  <h5><span class="counter">1</span>M+</h5>
+                  <p>Happy Customers</p>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+              <div class="single-counter">
+                  <h5><span class="counter">100</span>%</h5>
+                  <p>Services Guarantee</p>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+              <div class="single-counter">
+                  <h5><span class="counter">10</span>K+</h5>
+                  <p>Service Partners</p>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+              <div class="single-counter">
+                  <h5>
+                      <span class="counter">1 </span>M+</h5>
+                  <p>Services Completed</p>
+              </div>
+          </div>
+      </div>
+  </div>
+    <!-- Call To Action Section -->
+    <section id="call-to-action" class="call-to-action section dark-background">
+
+      <img src="{% static 'assets/img/cta-bg.jpg'%}" alt="">
+
+      <div class="container">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-xl-9 text-center text-xl-start">
+            <h3>Call To Action</h3>
+            <p>"Get Reliable Services at Your Doorstep – Enter Your Address & Book Now!" 🚀</p>
+          </div>
+          <div class="col-xl-3 cta-btn-container text-center">
+            <a class="cta-btn align-middle" href="contect.html">Call To Action</a>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Call To Action Section -->
+
+    <!-- Portfolio Section -->
+
+  
+    <!-- Faq 2 Section -->
+    <section id="faq-2" class="faq-2 section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Frequently Asked Questions</h2>
+        <p>We offer a wide range of professional services, including full body checkups, mechanical repairs, cleaning, and electrical solutions, all designed to make your life easier and stress-free.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row justify-content-center">
+
+          <div class="col-lg-10">
+
+            <div class="faq-container">
+
+              <div class="faq-item faq-active" data-aos="fade-up" data-aos-delay="200">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>What mechanical services do you offer?
+                </h3>
+                <div class="faq-content">
+                  <p>We offer car repairs, engine diagnostics, brake servicing, oil changes, and more.
+                  </p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>How can I book a service?</h3>
+                <div class="faq-content">
+                  <p>
+                    You can book a service easily through our website or by calling our customer support team.
+                  </p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>
+                  Are your prices affordable?
+                </h3>
+                <div class="faq-content">
+                  <p>
+                    Yes, we offer affordable prices with clear and honest pricing for all our services.
+                  </p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>How long will my service take?
+                </h3>
+                <div class="faq-content">
+                  <p>We offer a wide range of professional services, including full body checkups, mechanical repairs, cleaning, and electrical solutions, all designed to make your life easier and stress-free.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="600">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3> Do you provide warranties for your services?
+                </h3>
+                <div class="faq-content">
+                  <p>Service time varies depending on the type of cleaning services, but we aim to complete all tasks efficiently.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Faq 2 Section -->
+
+  
+
+  <footer id="footer" class="footer">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="d-flex align-items-center">
+            <span class="sitename">EveryDayEase</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>A108 Adam Street</p>
+            <p>New York, NY 535022</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+            <p><strong>Email:</strong> <span>EveryDayEase@gmail.com </span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Medical</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Electrician</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Cleaning</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Mechanical</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>Follow Us</h4>
+          <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+          <div class="social-links d-flex">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  
+  <!-- Modal for account center -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight2" aria-labelledby="offcanvasRight2Label">
+    
+    <div class="offcanvas-body">
+        <div class="modal-content h-100">
+        <div class="modal-header d-flex justify-content-between">
+            <h1 class="modal-title fs-6" >Account Center</h1>
+            
+            {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                    <a href="/accounts/admin/" target="_blank" type="button" class="btn btn-scroll"><i class="bi bi-gear"></i> </a>
+                {% endif %}
+            {% endif %}
+            <button type="button btn border-none outline-none" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+        </div>
+        
+
+        {% if request.user.is_authenticated %}
+
+        <div class="modal-body p-2">
+
+            <div class="row border shadow-lg p-2 rounded">
+            <div class="col"><img width="80px" height="80px" id="profileimg" class="rounded shadow-lg" src="{{request.user.profile_image.url}}" alt=""></div>
+            <div class="col">
+                <h5 class="text-center">{{request.user.get_full_name}} <span style="font-size:10px">{% if request.user.gender != none %}{{request.user.gender}}{% endif %} </span></h5>
+                <p class="p-0 m-0 text-center"> {{request.user.username}} </p>
+
+                <small class="text-center">{{request.user.email}}</small>
+            </div>
+
+            <details class="p-1 m-0 text-start" style="font-size: 12px;">
+                <summary>About You</summary>
+                <p>{% if request.user.bio %} {{request.user.bio}} {% else %} <span class="text-warning">Nothing about you.</span>{% endif %}</p>
+                </details>
+
+            </div>
+
+            {% if request.user.user_type == "shopkeeper" %}
+            <div class="row my-1 border d-flex justify-content-between shadow-lg p-2 rounded">
+              <div class="col text-info p-2"><i class="bi bi-person-lines-fill mx-2 fs-6"></i>Portfolio</div>
+              <div class="col-md-4 p-2" style="text-align: right;"><a href="/accounts/{{request.user.username}}/portfolio/" class="text-info"><i class="bi bi-box-arrow-up-right text-info mx-1"></i> Go to</a></div>
+          </div>
+            {%else %}
+            <div class="row my-1 border d-flex justify-content-between shadow-lg p-2 rounded">
+              <div class="col text-info p-2"><i class="bi bi-person-lines-fill mx-2 fs-6"></i>Porfile</div>
+              <div class="col-md-4 p-2" style="text-align: right;"><a href="/accounts/profile/" class="text-info"><i class="bi bi-box-arrow-up-right text-info mx-1"></i> Go to</a></div>
+          </div>
+            {%endif %}
+
+           
+            <div class="row my-1 border d-flex justify-content-between shadow-lg p-2 rounded">
+                <div class="col text-warning p-2"><i class="bi bi-key mx-2 fs-5"></i>Change Passowrd</div>
+                <div class="col-md-4 p-2" style="text-align: right;"><a href="/accounts/password/change/" class="text-success"><i class="bi bi-box-arrow-up-right text-success mx-1"></i> Go to</a></div>
+            </div>
+
+            
+
+            
+        </div>
+        {% else %}
+        <div class="modal-body p-2">
+            <div class="row border shadow-lg p-2 rounded">
+            <div class="m-1 my-3 w-100 border-warning">
+
+                <h3>Login your account</h3>
+                <a href="/accounts/login/" class="btn btn-primary w-100">Login</a>
+            </div>
+
+            <div class="m-1 my-3 w-100 border-danger">
+
+                <h3 class="border-top">Create new account</h3>
+                <a href="/accounts/signup/" class="btn btn-warning w-100">Resister</a>
+            </div>
+            </div>       
+        </div>
+
+        {% endif %}
+
+        
+        <div class="modal-footer m-0 mt-2 p-0 mb-3 ">
+            
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2 text-danger"><i class="bi bi-shield-lock-fill  mx-2"></i>Privacy</div>
+            <div class="col p-2" style="text-align: right;"><a href="#" class="text-danger"><i class="bi bi-box-arrow-up-right text-danger mx-1 "></i> Go to</a></div>
+            </div>
+
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2 text-info"><i class="bi bi-person-raised-hand  mx-2"></i>Contant?Help</div>
+            <div class="col p-2" style="text-align: right;"><a href="/contact-us/" class="text-info"><i class="bi bi-box-arrow-up-right text-omf mx-1 "></i> Go to</a></div>
+            </div>
+
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2 text-warning"><i class="bi bi-info-circle-fill  mx-2"></i>About</div>
+            <div class="col p-2" style="text-align: right;"><a href="/about-us/" class="text-warning"><i class="bi bi-box-arrow-up-right text-warning mx-1 "></i> Go to</a></div>
+            </div>
+
+            <!-- // Log-Out user -->
+            {% if request.user.is_authenticated %}
+
+            <div class="row border my-1 w-100 d-flex text-success justify-content-between shadow-lg p-2 rounded">
+            <div class="col p-2" style="color: #15d84c !important;"><i class="bi bi-person-dash mx-2"></i>Log-Out</div>
+            <div class="col p-2 text-end">
+                <div class="form-check form-switch">
+                <a href="/accounts/logout" class="btn text-success"><i class="bi bi-box-arrow-right text-success"></i></a>
+                </div>
+            </div>
+            </div>
+            {% endif %}
+
+        </div>
+        </div>
+    </div>
+  </div>
+
+  
+  
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/waypoints/noframework.waypoints.js' %}"></script>
+  <script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

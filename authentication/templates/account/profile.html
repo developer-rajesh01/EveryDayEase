@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | {{request.user.username |title}} ({{request.user.get_full_name}})</title>
+    {% load static %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+
+    <style>
+        li{
+            color: orange;
+            margin-left: 2px;
+        }
+        .profile-sidebar {
+            background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+        }
+
+        .nav-pills .nav-link {
+            color: #6c757d;
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #fff;
+            color: #4158D0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+            height: 150px;
+            border-radius: 15px;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border: 4px solid #fff;
+            margin-top: -60px;
+            background-color: #fff;
+        }
+
+        .settings-card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .settings-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-switch .form-check-input {
+            width: 3em;
+            height: 1.5em;
+            margin-left: -3.5em;
+        }
+
+        .activity-item {
+            border-left: 2px solid #e9ecef;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .activity-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4158D0;
+            position: absolute;
+            left: -7px;
+            top: 5px;
+        }
+
+        input,textarea,select{
+            background-color: #e9ecef29 !important;
+            color: white !important;
+        }
+        .form-label,p,h5,h6,h2,h3,span{
+            color: white !important;
+        }
+
+    </style>
+
+
+</head>
+<body>
+    <script>
+        let selected_files = document.getElementById("id_profile_image")
+
+        function previewImage(event) {
+
+            const preview = document.getElementById('profile_img');
+            const file = event.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                preview.src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    
+        function editData(){
+            document.getElementById("submit_btn_x").classList.toggle('d-none')
+
+            document.getElementById("select_image_btn").classList.toggle('d-none')
+            document.getElementById("edit_btn").classList.toggle('d-none')
+
+            let formfield = document.getElementById("formfield")
+
+            console.log(formfield.hasAttribute("disabled"))
+            if (formfield.hasAttribute("disabled")) {
+                
+                formfield.removeAttribute('disabled')
+            }
+            else{
+                formfield.setAttribute('disabled','true')
+            }
+        }
+</script>
+
+<style>
+    #profile_id{
+        background: linear-gradient(to right, #6a11cb, #2575fc) !important;
+        animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+        0% {
+            background-position: 0% 50% !important;
+        }
+        50% {
+            background-position: 100% 50% !important;
+        }
+        100% {
+            background-position: 0% 50% !important;
+        }
+        }
+</style>
+
+        <div id="profile_id">
+            
+            <div class="container py-5">
+                <div class="row">
+                    <!-- Profile Header -->
+                    <div class="col-12 mb-4">
+                        <div class="profile-header position-relative mb-4">
+                            <div class="position-absolute top-0 end-0 p-3">
+                                <a href="/accounts/logout/" class="btn btn-danger pe-0">Logout <i class="bi bi-box-arrow-right mx-2"></i></a>
+                            </div>
+                            <div class="position-absolute top-0 start-0 p-3">
+                                <a href="/" class="btn btn-light"><i class="bi bi-house me-2"></i></i>Home</a>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="position-relative d-inline-block">
+                                
+                                <img src="{% if request.user.profile_image %}{{request.user.profile_image.url}} {% else %} {% static 'assets/img/why-us/user.png"' %} {% endif %}" class="rounded-circle profile-pic" alt="Profile Picture" id="profile_img">
+                                <button id="select_image_btn" class="d-none btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle" type="button" onclick="document.getElementById('id_profile_image').click()">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                                
+                                
+                            </div>
+
+
+                            <h3 class="mt-3 mb-1">
+                                {{request.user.username}} 
+
+                                <span class="text-wheat fs-6"> 
+                                    {% if request.user.gender != none %}
+                                        {{request.user.gender}}
+                                    {% endif %}
+                                </span></h3>
+                            <p class="text-wheat mb-3">{{request.user.email}}</p>
+                        
+                        </div>
+                    </div>
+                    
+                    {% if form.profile_image.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.profile_image.errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            
+                            {% if messages %}
+                                <div class="messages">
+                                    {% for message in messages %}
+                                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                   
+                    <!-- Main Content -->
+                    <div class="col-12 position-relative">
+                        <div class="card border-0 shadow-lg">
+                            <button onclick="editData()" class="btn btn-warning position-absolute btn m-2 end-0" id="edit_btn"><i class="bi bi-pencil-square"></i> Edit</button>
+                            <form action="/accounts/{{ request.user.username }}/profile/" method="post" enctype="multipart/form-data">
+                                <fieldset disabled id="formfield">
+                        
+                        
+                                {% csrf_token %}
+
+                            <div id="submit_btn_x" class="d-none position-absolute m-2 end-0">
+
+                                <button type="submit" class="btn btn-outline-warning btn m-2"><i class="bi bi-upload mx-1"></i>Save Chages</button>
+                                <button onclick="editData()" class="btn btn-outline-dark btn m-2"><i class="bi bi-x"></i> Cancle</button>
+                            </div>
+                            
+
+                            <input type="file" name="profile_image" onchange="previewImage(this)" class="form-control custom-profile-image d-none" id="id_profile_image">
+
+
+                            <div class="card-body rounded p-0" style="background: linear-gradient(to right, #5557ce, #6515c5);">
+                                <div class="row g-0">
+                                    <!-- Sidebar -->
+                                
+                                    <!-- Content Area -->
+                                        <div class="p-4">
+                                            <!-- Personal Information -->
+                                            <div class="mb-4">
+                                                <h5 class="mb-4">Personal Information</h5>
+
+                                                <div class="row g-3">
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Username</label>
+                                                        <!-- <input type="text" class="form-control" value="{{request.user.first_name}}"> -->
+                                                        {{form.username}}
+
+                                                        {% if form.username.errors %}
+                                                            <ul class="text-danger">
+                                                                {% for error in form.username.errors %}
+                                                                <li>{{ error }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                            <script>
+                                                                editData()
+                                                            </script>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Email</label>
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" class="form-control" disabled value="{{request.user.email}}" aria-describedby="button-addon2">
+                                                            <a href="/accounts/email/" target="_blank" class="btn btn-outline-warning" type="button" id="button-addon2">Chnage</a>
+                                                          </div>
+
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">First Name</label>
+                                                        <!-- <input type="text" class="form-control" value="{{request.user.first_name}}"> -->
+                                                        {{form.first_name}}
+
+                                                        {% if form.first_name.errors %}
+                                                            <ul class="text-danger">
+                                                                {% for error in form.first_name.errors %}
+                                                                <li>{{ error }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Last Name</label>
+                                                        {{form.last_name}}
+
+                                                        {% if form.last_name.errors %}
+                                                        <ul class="text-danger">
+                                                            {% for error in form.last_name.errors %}
+                                                            <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                        {% endif %}
+
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Gender</label>
+                                                        <!-- <input type="tel" class="form-control" value="{% if request.user.gender != none %}{{request.user.gender}} {% else %}---{% endif %}"> -->
+                                                        {{form.gender}}
+
+                                                        {% if form.gender.errors %}
+                                                        <ul class="text-danger">
+                                                            {% for error in form.gender.errors %}
+                                                            <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">City</label>
+                                                        {{form.city}}
+
+                                                        {% if form.city.errors %}
+                                                        <ul class="text-danger">
+                                                            {% for error in form.city.errors %}
+                                                            <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                        {% endif %}
+
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label class="form-label">Bio</label>
+                                                        {{form.bio}}
+
+                                                        {% if form.bio.errors %}
+                                                        <ul class="text-danger">
+                                                            {% for error in form.bio.errors %}
+                                                            <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Settings Cards -->
+                                            <div class="row g-4 mb-4 d-none">
+                                                <div class="col-md-6">
+                                                    <div class="settings-card card">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <h6 class="mb-1">Two-Factor Authentication</h6>
+                                                                    <p class="text-white mb-0 small">Add an extra layer of
+                                                                        security</p>
+                                                                </div>
+                                                                <div class="form-check form-switch">
+                                                                    <input class="form-check-input" type="checkbox" checked>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="settings-card card">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    <h6 class="mb-1">Email Notifications</h6>
+                                                                    <p class="text-white mb-0 small">Receive activity updates
+                                                                    </p>
+                                                                </div>
+                                                                <div class="form-check form-switch">
+                                                                    <input class="form-check-input" type="checkbox" checked>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Recent Activity -->
+                                            <div>
+                                                <h5 class="mb-4">Recent Activity</h5>
+                                                <div class="activity-item mb-3">
+                                                    <h6 class="mb-1">Updated profile picture</h6>
+                                                    <p class="text-wheat small mb-0">2 hours ago</p>
+                                                </div>
+                                                <div class="activity-item mb-3">
+                                                    <h6 class="mb-1">Changed password</h6>
+                                                    <p class="text-wheat small mb-0">Yesterday</p>
+                                                </div>
+                                                <div class="activity-item">
+                                                    <h6 class="mb-1">Updated billing information</h6>
+                                                    <p class="text-wheat small mb-0">3 days ago</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row d-flex justify-content-end mt-3">
+                                                <button type="submit"  class="btn m-2 btn-success col-md-2">Save Updates</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                                </fieldset>
+                            </form>
+
+                        </div>
+                    </div>
+               
+                </div>
+            </div>
+        </div>
+        
+
+  
+
+</body>
+</html> 

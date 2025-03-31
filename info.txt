@@ -1,0 +1,6 @@
+pip install virtualenv
+virtualenv .env
+.\.env\Scripts\activate
+Set-ExecutionPolicy Unrestricted -Scope Process
+pip install -r requirements.txt
+python manage.py runserver

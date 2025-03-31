@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}EveryDayEase | {{slug}}{% endblock title %}
+
+{% block main %}
+{% load static %}
+{% load humanize %}
+
+<div class="container-fluid my-5 pb-0 py-5">
+    <div class="container">
+      <h1 class="text-center">{{provider | title}} Services</h1>
+      <p class="text-muted text-center fw-bold">Have questions or need assistance? We're here to help! Reach out to us and let's connect.</p>
+      <div class="d-flex justify-content-center">
+        <a href="/contact-us" class="btn btn-info px-5 fs-5 ">contact-us</a>
+      </div>
+    </div>
+</div>
+
+    <nav aria-label="breadcrumb" class="py-0 my-0 mx-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/services">Services</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="/services/{{slug}}">{{slug}}</a></li>
+      <li class="breadcrumb-item Active" aria-current="page">{{provider}}</li>
+    </ol>
+  </nav>
+<hr class="py-0 my-0">
+  
+  <style>
+    .card{
+      width: 20rem !important;
+      margin: 3px;
+    }
+    h3{
+      font-size: 1.2rem;
+    }
+  </style>
+  <div class="">
+
+
+<!-- provider -->
+
+    <!-- Row 1 -->
+    <div class="row p-3">
+        {% for service in services %}
+            <a href="/services/{{slug}}/{{id}}/{{provider}}/{{service.service_name}}" style="text-decoration: none;" class="card my-2 p-0 mx-auto">
+                <div class="card-image">
+                    <img  src="{{service.service_image.url}}" class="w-100 rounded-top" alt="Beautiful">
+                    </div>
+                    <div class="card-content p-2">
+                    <h3>{{service.service_name}}</h3>
+                    <p class="d-flex">
+                        <span style="font-size: 14px;" class="fw-bold text-muted me-auto">Status: {{service.availability}} <span class="{% if provider.status == "Active" %} text-success {% elif provider.status == "Inactive" %} text-warning {% else %} text-info {% endif %}">{{provider.status}}</span></span>
+                        <span style="font-size: 14px;" class="fw-bold text-muted">Charges: ₹{{service.price}}</span>
+                    </p>
+                    <p style="font-size: 13px;" class="text-muted">Provider: {{service.provider}}</p>
+                    <p style="font-size: 13px;" class="text-muted">{{service.description}}</p>
+                    <p style="font-size: 13px;" class="d-flex p-0">
+                        <span class="text-muted me-auto">Category: {{service.category}}</span>
+                        <span class="text-muted">Update on: {{service.updated_at |naturaltime}}</span>
+                    </p>
+                    <div class="d-flex">
+                        <div class="me-auto"><button class="btn btn-sm btn-dark px-3">Connect</button></div>
+                        <div class=""><button class="btn btn-sm"><i class="bi bi-bookmark-plus"></i> 3.1k</button></div>
+                        <div class=""><button class="btn btn-sm"><i class="bi bi-hand-thumbs-up"></i>0.9k</button></div>
+                        <div class=""><button class="btn btn-sm"><i class="bi bi-send"></i></button>12.3k</div>
+                    </div>
+                </div>
+            </a>
+        {% empty %}
+            <div class="row">
+                <h3 class="text-warning text-center">😒 {{provider}} not provides {{slug}} services 😒 <a href="/services/{{slug}}/">Find Other</a></h3>
+            </div>
+        {% endfor %}
+
+    </div>
+
+  </div>
+{% endblock main %}
